@@ -1,0 +1,5 @@
+include(cmake/openssl.cmake)
+add_subdirectory(emp-tool)
+add_subdirectory(emp-ot)
+add_subdirectory(emp-agmpc)
+add_subdirectory(emp-zk)
