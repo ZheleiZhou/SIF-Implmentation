@@ -4,11 +4,11 @@ This is a prototype implementation of 1-round and 2-round Single-Input Functiona
 
 ## Installation
 
-We implement our SIF protocols on a machine running Ubuntu 20.04 LTS. You can use the following commands to install the packages that will be used:
+We implement our SIF protocols on a machine running Ubuntu 22.04 LTS. You can use the following commands to install the packages that will be used:
 
 ```
 sudo apt-get update
-sudo apt-get install -y cmake git build-essential libssl-dev
+sudo apt-get install -y cmake git build-essential
 ```
 
 ## Running a simple test
