@@ -4,9 +4,14 @@
 #include "1r_sif_bool_iknp.h"
 #include "1r_sif_arith.h"
 #include "2r_sif_bool.h"
-#include "test/test.h"
 
 using namespace std;
+using namespace emp;
+
+template<int nP>
+int communication(NetIOMP<nP> * ios[2]) {
+	return ios[0]->count() + ios[1]->count();
+}
 
 template<int nP>
 void sif_1r_bool_pcg_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
@@ -17,14 +22,16 @@ void sif_1r_bool_pcg_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * po
 	auto start = clock_start();
 	OneRound_SIF_Bool_PCG<nP>* sif = new OneRound_SIF_Bool_PCG<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	int off_comm = communication<nP>(ios);
+	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -35,7 +42,8 @@ void sif_1r_bool_pcg_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * po
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
 	delete sif;
 }
 
@@ -48,14 +56,16 @@ void sif_1r_bool_iknp_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * p
 	auto start = clock_start();
 	OneRound_SIF_Bool_IKNP<nP>* sif = new OneRound_SIF_Bool_IKNP<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	int off_comm = communication<nP>(ios);
+	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -66,7 +76,8 @@ void sif_1r_bool_iknp_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * p
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
 	delete sif;
 }
 
@@ -79,14 +90,16 @@ void sif_2r_bool_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, 
 	auto start = clock_start();
 	TwoRound_SIF_Bool<nP>* sif = new TwoRound_SIF_Bool<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	int off_comm = communication<nP>(ios);
+	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -97,7 +110,8 @@ void sif_2r_bool_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, 
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
 	delete sif;
 }
 
@@ -110,14 +124,16 @@ void sif_1r_arith_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool,
 	auto start = clock_start();
 	OneRound_SIF_Arith<nP>* sif = new OneRound_SIF_Arith<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	int off_comm = communication<nP>(ios);
+	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -128,6 +144,49 @@ void sif_1r_arith_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool,
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<"ms\n"<<flush;
+	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
 	delete sif;
+}
+
+template<int nP>
+void bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
+	if(party == 1)cout <<"CIRCUIT:\t"<<filename<<endl;
+	//string file = circuit_file_location+"/"+filename;
+	BristolFormat cf(filename.c_str());
+
+	auto start = clock_start();
+	CMPC<nP>* mpc = new CMPC<nP>(ios, pool, party, &cf);
+	ios[0]->flush();
+	ios[1]->flush();
+	double t2 = time_from(start);
+//	ios[0]->sync();
+//	ios[1]->sync();
+	if(party == 1)cout <<"Setup:\t"<<party<<"\t"<< t2/1000.0 <<" ms\n"<<flush;
+
+	start = clock_start();
+	mpc->function_independent();
+
+	mpc->function_dependent();
+	ios[0]->flush();
+	ios[1]->flush();
+	t2 = time_from(start);
+	if(party == 1) cout <<"preprocessing time:\t"<<t2/1000.0<<" ms\n"<<flush;
+	int off_comm = communication<nP>(ios);
+	if(party == 1) cout << "Preprocessing comm:\t " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
+	ios[0]->flush();
+	ios[1]->flush();
+
+	bool *in = new bool[cf.n1+cf.n2]; bool *out = new bool[cf.n3];
+	memset(in, false, cf.n1+cf.n2);
+	start = clock_start();
+	mpc->online(in, out);
+	ios[0]->flush();
+	ios[1]->flush();
+	t2 = time_from(start);
+//	uint64_t band2 = io.count();
+//	if(party == 1)cout <<"bandwidth\t"<<party<<"\t"<<band2<<endl;
+	if(party == 1) cout <<"online time:\t"<<t2/1000.0<<" ms\n"<<flush;
+	if(party == 1) cout << "Online comm:\t "<<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
+	delete mpc;
 }

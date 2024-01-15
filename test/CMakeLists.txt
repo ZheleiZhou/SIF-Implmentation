@@ -6,7 +6,7 @@ add_executable(sha_iknp_test sha_iknp.cc)
 add_executable(and_pcg_test and_pcg.cc)
 add_executable(and_iknp_test and_iknp.cc)
 add_executable(and_arith_test and_arith.cc)
-
+add_executable(aes_wrk_test aes_wrk.cc)
 
 
 
@@ -34,7 +34,13 @@ target_link_libraries(and_pcg_test
 PUBLIC
   sif
 )
+
 target_link_libraries(and_iknp_test
+PUBLIC
+  sif
+)
+
+target_link_libraries(aes_wrk_test
 PUBLIC
   sif
 )

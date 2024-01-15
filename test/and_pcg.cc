@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 	ThreadPool pool(2*(nP-1)+2);	
 
 	if (party == 1){
-		cout << "Evaluate Arithmetic Circuit" << endl;
+		cout << "Evaluate Boolean Circuit" << endl;
 	}
 	sif_1r_bool_pcg_bench_once<nP>(party, ios, &pool, circuits_location+"ands.txt");
 
