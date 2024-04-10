@@ -22,6 +22,6 @@ int main(int argc, char** argv) {
 	NetIOMP<nP> *ios[2] = {&io, &io2};
 	ThreadPool pool(2*(nP-1)+2);	
 
-	bench_once<nP>(party, ios, &pool, circuits_format_location+"AES-non-expanded.txt");
+	bench_mpc_once<nP>(party, ios, &pool, circuits_format_location+"AES-non-expanded.txt");
 	return 0;
 }

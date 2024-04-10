@@ -15,23 +15,20 @@ int communication(NetIOMP<nP> * ios[2]) {
 
 template<int nP>
 void sif_1r_bool_pcg_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
-	if(party == 1)cout <<"CIRCUIT:\t"<<filename<<endl;
-	//string file = circuit_file_location+"/"+filename;
 	BristolFashion cf(filename.c_str());
 
 	auto start = clock_start();
 	OneRound_SIF_Bool_PCG<nP>* sif = new OneRound_SIF_Bool_PCG<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << "/ preprocessing time / " <<  t2/1000.0 <<" /ms\n"<<flush;
 	int off_comm = communication<nP>(ios);
-	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
+	cout << "party " << party << "/ preprocessing comm / " <<  off_comm/1000.0/1000.0 <<" /MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -42,30 +39,27 @@ void sif_1r_bool_pcg_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * po
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
-	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
+	cout << "party " << party << "/ online time / " <<  t2/1000.0 <<" /ms\n"<<flush;
+	cout << "party " << party << "/ online comm / " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" /MB\n"<<flush;
 	delete sif;
 }
 
 template<int nP>
 void sif_1r_bool_iknp_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
-	if(party == 1)cout <<"CIRCUIT:\t"<<filename<<endl;
-	//string file = circuit_file_location+"/"+filename;
 	BristolFashion cf(filename.c_str());
 
 	auto start = clock_start();
 	OneRound_SIF_Bool_IKNP<nP>* sif = new OneRound_SIF_Bool_IKNP<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << "/ preprocessing time / " <<  t2/1000.0 <<" /ms\n"<<flush;
 	int off_comm = communication<nP>(ios);
-	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
+	cout << "party " << party << "/ preprocessing comm / " <<  off_comm/1000.0/1000.0 <<" /MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -76,30 +70,27 @@ void sif_1r_bool_iknp_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * p
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
-	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
+	cout << "party " << party << "/ online time / " <<  t2/1000.0 <<" /ms\n"<<flush;
+	cout << "party " << party << "/ online comm / " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" /MB\n"<<flush;
 	delete sif;
 }
 
 template<int nP>
 void sif_2r_bool_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
-	if(party == 1)cout <<"CIRCUIT:\t"<<filename<<endl;
-	//string file = circuit_file_location+"/"+filename;
 	BristolFashion cf(filename.c_str());
 
 	auto start = clock_start();
 	TwoRound_SIF_Bool<nP>* sif = new TwoRound_SIF_Bool<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << "/ preprocessing time / " <<  t2/1000.0 <<" /ms\n"<<flush;
 	int off_comm = communication<nP>(ios);
-	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
+	cout << "party " << party << "/ preprocessing comm / " <<  off_comm/1000.0/1000.0 <<" /MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -110,30 +101,27 @@ void sif_2r_bool_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, 
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
-	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
+	cout << "party " << party << "/ online time / " <<  t2/1000.0 <<" /ms\n"<<flush;
+	cout << "party " << party << "/ online comm / " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" /MB\n"<<flush;
 	delete sif;
 }
 
 template<int nP>
 void sif_1r_arith_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
-	if(party == 1)cout <<"CIRCUIT:\t"<<filename<<endl;
-	//string file = circuit_file_location+"/"+filename;
 	BristolFashion cf(filename.c_str());
 
 	auto start = clock_start();
 	OneRound_SIF_Arith<nP>* sif = new OneRound_SIF_Arith<nP>(ios, pool, party, &cf);
 	double t2 = time_from(start);
-	cout << "party " << party << ": setup time " <<  t2/1000.0 <<" ms\n"<<flush;
 	ios[0]->sync();
 	ios[1]->sync();
 
 	start = clock_start();
 	sif->Preprocess();
 	t2 =  time_from(start);
-	cout << "party " << party << ": preprocessing time " <<  t2/1000.0 <<" ms\n"<<flush;
+	cout << "party " << party << "/ preprocessing time / " <<  t2/1000.0 <<" /ms\n"<<flush;
 	int off_comm = communication<nP>(ios);
-	cout << "party " << party << ": preprocessing comm " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
+	cout << "party " << party << "/ preprocessing comm / " <<  off_comm/1000.0/1000.0 <<" /MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -144,15 +132,13 @@ void sif_1r_arith_bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool,
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	cout << "party " << party << ": online time " <<  t2/1000.0 <<" ms\n"<<flush;
-	cout << "party " << party << ": online comm " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
+	cout << "party " << party << "/ online time / " <<  t2/1000.0 <<" /ms\n"<<flush;
+	cout << "party " << party << "/ online comm / " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" /MB\n"<<flush;
 	delete sif;
 }
 
 template<int nP>
-void bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
-	if(party == 1)cout <<"CIRCUIT:\t"<<filename<<endl;
-	//string file = circuit_file_location+"/"+filename;
+void bench_mpc_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filename) {
 	BristolFormat cf(filename.c_str());
 
 	auto start = clock_start();
@@ -160,9 +146,8 @@ void bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filen
 	ios[0]->flush();
 	ios[1]->flush();
 	double t2 = time_from(start);
-//	ios[0]->sync();
-//	ios[1]->sync();
-	if(party == 1)cout <<"Setup:\t"<<party<<"\t"<< t2/1000.0 <<" ms\n"<<flush;
+	ios[0]->sync();
+	ios[1]->sync();
 
 	start = clock_start();
 	mpc->function_independent();
@@ -171,9 +156,11 @@ void bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filen
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-	if(party == 1) cout <<"preprocessing time:\t"<<t2/1000.0<<" ms\n"<<flush;
+	if(party == 1) 
+		cout << "party " << party << "/ preprocessing time / " <<  t2/1000.0 <<" /ms\n"<<flush;
 	int off_comm = communication<nP>(ios);
-	if(party == 1) cout << "Preprocessing comm:\t " <<  off_comm/1000.0/1000.0 <<" MB\n"<<flush;
+	if(party == 1) 
+		cout << "party " << party << "/ preprocessing comm / " <<  off_comm/1000.0/1000.0 <<" /MB\n"<<flush;
 	ios[0]->flush();
 	ios[1]->flush();
 
@@ -184,9 +171,10 @@ void bench_once(int party, NetIOMP<nP> * ios[2], ThreadPool * pool, string filen
 	ios[0]->flush();
 	ios[1]->flush();
 	t2 = time_from(start);
-//	uint64_t band2 = io.count();
-//	if(party == 1)cout <<"bandwidth\t"<<party<<"\t"<<band2<<endl;
-	if(party == 1) cout <<"online time:\t"<<t2/1000.0<<" ms\n"<<flush;
-	if(party == 1) cout << "Online comm:\t "<<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" MB\n"<<flush;
+
+	if(party == 1) 
+		cout << "party " << party << "/ online time / " <<  t2/1000.0 <<" /ms\n"<<flush;
+	if(party == 1) 
+		cout << "party " << party << "/ online comm / " <<(communication<nP>(ios)-off_comm)/1000.0/1000.0<<" /MB\n"<<flush;
 	delete mpc;
 }
